@@ -1,0 +1,36 @@
+---
+- name: Add grafana apt key
+  apt_key: url={{ grafana_debian_key_url }} state=present
+
+- name: Register grafana apt repository
+  apt_repository:
+    repo: 'deb https://packagecloud.io/grafana/{{ grafana_debian_repo }}/debian/ wheezy main'
+    state: present
+  register: new_repo
+
+- name: Update apt cache if new registration of grafana repo
+  apt: update_cache=yes
+  when: new_repo.changed
+
+- name: Pin a specific grafana version
+  copy:
+    dest: /etc/apt/preferences.d/pinned-grafana
+    content: |
+      Package: grafana
+      Pin: version {{ grafana_version }}
+      Pin-Priority: 1000
+
+- name: Install grafana
+  apt: name=grafana state=latest
+
+- name: Copy grafana config
+  template:
+    src: grafana.ini
+    dest: /etc/grafana/grafana.ini
+    owner: root
+    group: grafana
+    mode: 0640
+  notify: restart grafana
+
+- name: Ensure grafana is started and enabled
+  service: name=grafana-server state=started enabled=yes

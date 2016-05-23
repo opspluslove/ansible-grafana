@@ -1,0 +1,10 @@
+---
+grafana_version: 2.6.0
+grafana_debian_key_url: https://packagecloud.io/gpg.key
+grafana_debian_repo: stable
+grafana_host: 0.0.0.0
+grafana_port: 3033
+grafana_protocol: http
+grafana_login:
+  user: admin
+  password: admin
