@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/opspluslove/ansible-grafana.svg?branch=master)](https://travis-ci.org/opspluslove/ansible-grafana)
+
 grafana
 =========
 
